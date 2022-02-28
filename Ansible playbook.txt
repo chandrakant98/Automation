@@ -1,0 +1,44 @@
+Ansible
+Ansible is an open-source Python tool used to automate a variety of critical IT tasks, including application deployment, configuration management, server provisioning, and more.
+
+At a very high-level, Ansible works by promoting the development of playbooks (written in YAML), while IT administrators write “plays” that are defined by tasks. These tasks dictate the instructions to be executed on the remote hosts.
+
+For example, the following is an Ansible playbook designed to streamline the process for setting up an Apache web server on one or more remote hosts:
+
+---
+- hosts: all
+  become: true
+  vars:
+    vars/variables.yml
+  tasks:
+    - name: Update apt-cache
+      apt: update_cache=yes
+
+    - name: Install apache web server
+      apt: name=apache2 state=latest
+
+    - name: Create document root
+      file: path={{ document_root_path }} state=directory owner=www-data group=www-data
+
+    - name: Copy index.html
+      copy: src=index.html dest={{ document_root_path }}/index.html owner=”{{ owner }}” mode=0644
+
+    - name: Set up virtual hosts file
+      template: src=virtualhosts.conf dest=/etc/apache2/sites-available/000-default.conf
+      notify: Restart Apache
+  
+  handlers:
+    - name: Restart Apache
+      service: name=apache2 state=restarted
+
+
+
+
+
+
+
+
+
+
+
+

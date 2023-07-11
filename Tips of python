@@ -1,0 +1,5 @@
+what does %s, %r, and %d do.?
+round a floatig point number with round()
+eg- round(1.4343)
+Type error: 'str' object is not callables.
+reason- you probably forget the % between the string and the list of variables.
